@@ -7,6 +7,6 @@ public class JsonNotFoundException extends RuntimeException {
     }
 
     private static String buildMessage(Long id) {
-        return String.format("Json entity with id: [%s] is not found", id);
+        return String.format("Json entity with id [%s] is not found", id);
     }
 }

@@ -1,11 +1,10 @@
 package com.example.json_diff.service;
 
-import com.example.json_diff.exception.DiffException;
+import com.example.json_diff.exception.JsonNotFullyPresented;
 import com.example.json_diff.exception.JsonNotFoundException;
 import com.example.json_diff.repository.JsonDiffRepository;
 import com.example.json_diff.repository.entity.JsonDiffEntity;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class DiffServiceImpl implements DiffService {
 
     private DiffResult compareJsonSides(JsonDiffEntity jsonDiffEntity) {
         if (StringUtils.isBlank(jsonDiffEntity.getLeftJson()) || StringUtils.isBlank(jsonDiffEntity.getRightJson())) {
-            throw new DiffException("Json sides are not fully presented");
+            throw new JsonNotFullyPresented();
         }
 
         char[] leftCharArray = jsonDiffEntity.getLeftJson().toCharArray();
