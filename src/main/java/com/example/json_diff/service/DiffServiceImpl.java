@@ -15,8 +15,11 @@ import java.util.List;
 @Service
 public class DiffServiceImpl implements DiffService {
 
-    @Autowired
-    private JsonDiffRepository jsonDiffRepository;
+    private final JsonDiffRepository jsonDiffRepository;
+
+    public DiffServiceImpl(JsonDiffRepository jsonDiffRepository) {
+        this.jsonDiffRepository = jsonDiffRepository;
+    }
 
     @Override
     public DiffResult getJsonDiff(Long id) {
@@ -29,26 +32,25 @@ public class DiffServiceImpl implements DiffService {
             throw new DiffException("Json sides are not fully presented");
         }
 
-        char[] left = jsonDiffEntity.getLeftJson().toCharArray();
-        char[] right = jsonDiffEntity.getRightJson().toCharArray();
+        char[] leftCharArray = jsonDiffEntity.getLeftJson().toCharArray();
+        char[] rightCharArray = jsonDiffEntity.getRightJson().toCharArray();
 
-        if (Arrays.equals(left, right)) {
-            return DiffResult.builder().type(DiffType.EQUALS).build();
-        }
-
-        if (left.length != right.length) {
+        if (leftCharArray.length != rightCharArray.length) {
             return DiffResult.builder().type(DiffType.DIFFERENT_LENGTH).build();
+        }
+        if (Arrays.equals(leftCharArray, rightCharArray)) {
+            return DiffResult.builder().type(DiffType.EQUALS).build();
         }
 
         List<String> offsets = new ArrayList<>();
 
-        for (int i = 0; i < left.length; i++) {
-            if (left[i] != right[i]) {
+        for (int i = 0; i < leftCharArray.length; i++) {
+            if (leftCharArray[i] != rightCharArray[i]) {
                 offsets.add(String.valueOf(i));
             }
         }
 
-        final String message = "Offsets: " + String.join(",", offsets.toArray(new String[0])) + " - Length: " + left.length;
+        String message = String.join(", ", offsets.toArray(new String[0]));
 
         return DiffResult.builder()
                 .type(DiffType.DIFFERENT_CONTENT)

@@ -15,7 +15,6 @@ public class JsonServiceImpl implements JsonService {
         this.jsonDiffRepository = jsonDiffRepository;
     }
 
-
     @Override
     public void acceptEncodedJson(Long id, String encodedJson, Side side) {
         String decodedJson = decodeJson(encodedJson);
