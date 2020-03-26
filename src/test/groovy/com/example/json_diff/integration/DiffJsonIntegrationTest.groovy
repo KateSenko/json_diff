@@ -53,7 +53,7 @@ class DiffJsonIntegrationTest extends Specification {
             repository.save(equalJsonEntity)
         and:
             def expectedType = 'DIFFERENT_CONTENT'
-            def expectedOffsets = '14'
+            def expectedOffsets = '14; length: 17'
 
         expect:
             mvc.perform(

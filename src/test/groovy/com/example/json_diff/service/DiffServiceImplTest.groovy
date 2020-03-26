@@ -39,7 +39,7 @@ class DiffServiceImplTest extends Specification {
             def jsonId = 1L
             def leftJson = ' {"text" : "value1"} '
             def rightJson = ' {"test" : "value2"} '
-            def expectedOffsets = '5, 17'
+            def expectedOffsets = '5, 17; length: 21'
             def jsonEntity = new JsonDiffEntity(id: jsonId, leftJson: leftJson, rightJson: rightJson)
         and:
             jsonDiffRepository.findById(jsonId) >> Optional.of(jsonEntity)

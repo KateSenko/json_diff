@@ -49,7 +49,7 @@ public class DiffServiceImpl implements DiffService {
             }
         }
 
-        String message = String.join(", ", offsets.toArray(new String[0]));
+        String message = String.join(", ", offsets.toArray(new String[0])) + "; length: " + leftCharArray.length;
 
         return DiffResult.builder()
                 .type(DiffType.DIFFERENT_CONTENT)
