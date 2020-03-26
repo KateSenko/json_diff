@@ -4,6 +4,8 @@ import com.example.json_diff.service.DiffResult;
 import com.example.json_diff.service.DiffService;
 import com.example.json_diff.service.JsonService;
 import com.example.json_diff.service.Side;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,7 +36,7 @@ public class DiffController {
     }
 
     @GetMapping(value = "{id}")
-    public DiffResult getDiff(@PathVariable("id") Long jsonId) {
-        return diffService.getJsonDiff(jsonId);
+    public HttpEntity<DiffResult> getDiff(@PathVariable("id") Long jsonId) {
+        return ResponseEntity.ok(diffService.getJsonDiff(jsonId));
     }
 }

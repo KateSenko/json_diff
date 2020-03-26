@@ -1,5 +1,6 @@
 package com.example.json_diff.service;
 
+import com.example.json_diff.exception.InvalidJsonException;
 import com.example.json_diff.repository.JsonDiffRepository;
 import com.example.json_diff.repository.entity.JsonDiffEntity;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,12 @@ public class JsonServiceImpl implements JsonService {
     }
 
     private String decodeJson(String encodedJson) {
-        byte[] decodedBytes = Base64.getDecoder().decode(encodedJson);
-        return new String(decodedBytes);
+        try {
+            byte[] decodedBytes = Base64.getDecoder().decode(encodedJson);
+            return new String(decodedBytes);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidJsonException(ex.getMessage());
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.json_diff.service
 
+import com.example.json_diff.exception.InvalidJsonException
 import com.example.json_diff.repository.JsonDiffRepository
 import com.example.json_diff.repository.entity.JsonDiffEntity
 import spock.lang.Specification
@@ -46,6 +47,20 @@ class JsonServiceImplTest extends Specification {
 
         then:
             1 * jsonDiffRepository.save({ it.id == jsonId && it.rightJson == decodedRightJson && it.leftJson == leftJson})
+    }
+
+    def "sut throws exception if json can not be decoded"() {
+        given:
+            def jsonId = 1L
+            def invalidEncodedJson = '{"invalid": "content"}'
+        and:
+            jsonDiffRepository.findById(jsonId) >> Optional.empty()
+
+        when:
+            sut.acceptEncodedJson(jsonId, invalidEncodedJson, Side.RIGHT)
+
+        then:
+            thrown(InvalidJsonException)
     }
 
     def "sut decodes and instantiates new entity of json if it does not exist"() {
