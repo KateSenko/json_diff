@@ -37,3 +37,10 @@ in-memory db will not be saved.
 $ java -jar target/json_diff-0.0.1-SNAPSHOT.jar
 ```
 
+# Postman
+
+**Json diff.postman_collection.json** is a collection for testing the API. 
+Import it to your Postman and use for manual testing.
+
+
+
